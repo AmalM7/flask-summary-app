@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Summarize</title>
+    <link rel="shortcut icon" href="static/images/favicon/favicon.ico">
+    <link rel="stylesheet" href="static/css/font-awesome/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="static/css/bootstrap/bootstrap.css">
+
+    <!-- Responsive Tabs CSS -->
+    <link rel="stylesheet" href="static/css/responsive-tabs/responsive-tabs.min.css">
+
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="static/css/animate/animate.min.css">
+
+    <link rel="stylesheet" href="static/css/style.css">
+
+
+</head>
+
+
+
+<body data-spy="scroll" data-target=".navbar">  
+    <Preloader>
+    <<div id="preloader">
+        <div id="status">&nbsp;</div>
+    </div>
+
+    <!--Header-->  
+    <header>
+        <nav class="navbar navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="site-nav-wrapper">
+                    <!--Main Menu-->
+                    <div class="container">
+                        <div class="collapse navbar-collapse">
+                            <ul class="nav navbar-nav pull-right">
+                                <li><a href="#home">Home</a></li>
+                                <li><a href="#summarize">Summarize</a></li>
+                                <li><a href="#Result">Display Result</a></li>
+                                <li><a href="#compare">Compare Summarazations</a></li>
+                                <li><a href="#about">About</a></li>
+                                <li><a href="#contact">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+
+
+    <!-- Header Ends-->
+    
+    <!--Home-->
+    <section id="home">
+        <!--Background video-->
+        <div class="filter"></div>
+            <video id="home-bg-video" autoplay loop muted playsinline src="{{ url_for('static', filename='video/solo.mp4') }}" class="fillWidth"></video>
+                <div class="poster hidden">
+                <img src="{{ url_for('static', filename='video/solo.jpg') }}" alt="">
+                </div>
+
+        <!-- Overlay-->
+        <div id="home-overlay"></div>
+
+        <!--home content--> 
+        <div id="home-content" class="text-center">
+            <div id="home-content-inner">
+                <div id="home-heading">
+                    <h1 id="home-heading-1">Summerise</h1><br>
+                    <h3 id="home-heading-2" class="motto">Go to the main ideas in your texts, summarize them in<span> 1 Click</span>.</h3>
+                </div>
+                
+                <div id="home-text">
+                    <p>Copy and paste your argumentative text.</p>
+                </div>
+
+                <div id="home-btn">
+                    <a class="btn btn-general btn-home" href="#summarize" title="Start Now" role="button">Start Now</a>
+
+                </div>
+            </div>
+        </div>
+        <!-- Arrow Down-->
+        <a href="#about" id="arrow-down">
+            <i class="fa fa-angle-down"></i>
+        </a>
+    </section>
+    <!--Home ends-->
+
+    <!-- Summarize -->
+<section id="summarize">
+     <!-- Summarize part 1 -->
+     <div id="summarize-01">
+         <div class="content-box-lg">
+             <div class="container">
+                 <div class="row">
+                     <div class="input-field col s12 m10">
+                         <div class="about-item text-center">
+                             <i class="fa fa-pencil"></i>
+                             <hr>
+                             <form method="POST" action="/analyze">
+                                <textarea name="rawtext" cols="3" rows="5" class="form-control" required="true" placeholder="Enter Text Here"></textarea>
+          
+                                <br/>
+                                <button class="btn btn-general btn-clear" type="reset">Clear</button>
+                                <button class="btn btn-general btn-sum" type="submit">Summarize</button>
+                            </form>
+                         </div>
+
+                     </div>
+
+                 </div>
+             </div>
+         </div>
+     </div>
+
+     <!-- Summarize part 1 Ends-->
+ </section>
+
+
+    <!-- Result Display-->
+   <section id="Result">
+       <div id="result">
+           <div class="content-box-lg">
+                <div class="container white-text">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <div id="result-left">
+                                <div class="about-item text-center">
+                                        <i class="fa fa-pencil"></i>
+                                        <h5 class="center">Your Text</h5>
+                                        <hr>
+                                        <p class="light">{{ctext}}</p>
+   
+                                    
+                                </div> 
+                            </div>      
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div id="result-right">
+                                    <div class="about-item text-center">
+                                            <i class="fa fa-pencil"></i>
+                                            <h5 class="center">Text Summarized</h5>
+                                            <hr>
+                                            <p class="light">{{ final_summary }}</p>  
+                                    </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+   </section>
+   <!-- Result Ends-->
+
+   <!-- Compare Summarizer -->
+
+<!--<section id="compare">
+    <div class="tabContainer">
+            <div class="buttonContainer">
+                <button onclick="showPanel(0,'#f4c613')">SpaCy Summarizer</button>
+                <button onclick="showPanel(1,'#f4c613')">Gensim Summarizer</button>
+                <button onclick="showPanel(2,'#f4c613')">NLTK</button>
+                <button onclick="showPanel(3,'#f4c613')">Sumy LexRank</button>
+            </div>
+        
+        <div class="tabPanel"><p style="padding:5px;font-size:14px;">{{ final_summary_spacy }}</p></div>
+        <div class="tabPanel"><p style="padding:5px;font-size:14px;">{{ final_summary_gensim }}</div>
+        <div class="tabPanel"><p style="padding:5px;font-size:14px;">{{ final_summary_nltk }}</div>
+        <div class="tabPanel"><p style="padding:5px;font-size:14px;">{{ final_summary_sumy }}</div>
+    </div> 
+
+</section>-->
+
+<section id="compare">
+    <div id="services-02">
+
+            <div class="content-box-md">
+
+                <div id="services-tabs">
+
+                    <ul class="text-center">
+                        <li><a href="#service-tab-1">SpaCy Summarizer</a></li>
+                        <li><a href="#service-tab-2">Gensim Summarizer</a></li>
+                        <li><a href="#service-tab-3">NLTK</a></li>
+                        <li><a href="#service-tab-4">Sumy LexRank</a></li>
+                    </ul>
+
+                    <!-- Service Tab 01 -->
+                    <div id="service-tab-1" class="service-tab">
+                        
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6" class="text-center">
+                                    <img src="{{ url_for('static', filename='images/about/spacy.jpg') }}" alt="creativity">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="tab-bg">
+                                        <h2>01</h2>
+                                        <h3>Text summarized with SpaCy Summarizer.</h3>
+                                        <p>{{ final_summary_spacy }}</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Service Tab 02 -->
+                    <div id="service-tab-2" class="service-tab">
+                        
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6" class="text-center">
+                                    <img src="{{ url_for('static', filename='images/about/gensim2.jpg') }}" alt="strategy">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="tab-bg">
+                                        <h2>02</h2>
+                                        <h3>Text summarized  with Gensim Summarizer.</h3>
+                                        <p>{{ final_summary_gensim }}</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Service Tab 03 -->
+                    <div id="service-tab-3" class="service-tab">
+                        
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6" class="text-center">
+                                    <img src="{{ url_for('static', filename='images/about/NLTK.jpg') }}" alt="design">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="tab-bg">
+                                        <h2>03</h2>
+                                        <h3>Text summarized  with NLTK.</h3>
+                                        <p>{{ final_summary_nltk }}</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Service Tab 04 -->
+                    <div id="service-tab-4" class="service-tab">
+                        
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6" class="text-center">
+                                    <img src="{{ url_for('static', filename='images/about/sumy.jpg') }}" alt="development">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="tab-bg">
+                                        <h2>04</h2>
+                                        <h3>Text summarized with Sumy.</h3>
+                                        <p>{{ final_summary_sumy }}</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+
+</section>
+
+<!-- Compare SUMMARIZER Ends-->
+
+
+<!--About-->
+<section id="about">
+    <!--About part1-->
+    <div id="about-01">
+        <div class="content-box-lg">
+            <div class="container">
+                <div class="row">
+                    <!--About left side-->
+                    <div class="col-md-6 col-sm-6 wow slideInLeft" data-wow-duration="1s">
+                        <div id="about-left">
+                            <div class="vertical-heading">
+                                <h5>Who We are</h5>
+                                <h2>A <strong>Story</strong><br>About Me</h2>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!--About right side-->
+                    <div class="col-md-6 col-sm-6 wow slideInRight" data-wow-duration="1s">
+                            <div id="about-right">
+                                <p>
+                                        Hi, I’m Amal, Data Science Engineer,
+                                            with a background in ICT Engineering, Computer & Network Security specialization who loves building AI products.
+                                        I’ve been developed a lot of AI apps using Deep and Machine Learning that lets automatic and fast analysis happens. 
+                                        I’m interested in applying Machine Learning in Big Data, NLP, Cybersecurity and any data related domain.
+                                            I’d love to combine my passion for AI, with my software
+                                            development skills to continue building personalized AI products for people.
+                                </p>
+
+                                <p>Following my passion for technology was one of the best decisions I ever made.</p>
+                            </div>
+                        
+
+                    </div>
+                </div>
+
+                <!--About Bottom-->
+                <div class="row">
+                    <div class="col-md-12 wow fadeInUp" data-wow-duration="2s">
+                        <div id="about-bottom" class="text-center">
+                            <img src="{{ url_for('static', filename='images/about/summary.jpg') }}" alt="About Us">
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+    <!--About part 1 Ends -->
+
+
+    <!-- About 02 -->
+    <div id="about-02">
+        <div class="content-box-md">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 wow fadeInLeft">
+                        <div class="about-item text-center">
+                            <i class="fa fa-rocket"></i>
+                            <h3>Mission</h3>
+                            <hr>
+                            <p>Provide exposure of latest tools and technologies in the area of engineering and technology. 
+                                    Promote research based projects/activities in the emerging areas of technology convergence
+                            </p>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4 col-sm-4 wow fadeInUp" data-wow-duration="2s">
+                            <div class="about-item text-center">
+                                    <i class="fa fa-eye"></i>
+                                    <h3>Vision</h3>
+                                    <hr>
+                                    <p>My vision is to create a better every-day life for many people.
+                                    </p>
+                                </div>
+                    </div>
+                    <div class="col-md-4">
+                            <div class="about-item text-center wow fadeInRight">
+                                    <i class="fa fa-pencil"></i>
+                                    <h3>Passion</h3>
+                                    <hr>
+                                    <p>Enjoy the journey and try to get better every day. Don’t lose the passion and the love for what I do.
+                                     Passion should meet our professional life, and I'm a living testament to that.
+                                    </p>
+                                </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+    </div>
+
+    <!-- About 02 Ends -->
+
+
+
+
+</section>
+
+    <!-- Contact -->
+    <section id="contact">
+
+            <div class="content-box-md">
+    
+                <div class="container">
+    
+                    <div class="row">
+    
+                        <div class="col-md-6 col-sm-6 wow slideInLeft" data-wow-duration="1s">
+    
+                            <!-- Contact Left -->
+                            <div id="contact-left">
+    
+                                <div class="vertical-heading">
+                                    <h5>Who We Are</h5>
+                                    <h2>Get<br>In <strong>Touch</strong></h2>
+                                </div>
+                                <br>
+                                <br>
+                                <h4>Do you have a question, need help with a problem ? Or do you simply want to communicate with me ? Please feel free to contact me.</h4>
+    
+                                
+    
+                            </div>
+    
+                        </div>
+                        <div class="col-md-6 col-sm-6 wow slideInRight" data-wow-duration="1s">
+    
+                            <!-- Contact Right -->
+                            <div id="contact-right">
+                                    <div id="offices">
+    
+                                            <div class="row">
+            
+                                                <div class="col-md-6">
+            
+                                                    <div class="office">
+                                                        <h3>Tunisia</h3>
+                                                        <ul class="office-details">
+                                                            <li><i class="fa fa-envelope"></i><span>amalmenzli7@gmail.com</span></li>
+                                                            <li><i class="fa fa-map-marker"></i><span>Tunis, Tunisia.</span></li>
+                                                        </ul>
+                                                    </div>
+            
+                                                </div>
+                                        
+            
+                                            </div>
+            
+                                        </div>
+
+                                        <ul class="social-list">
+                                                <li><a href="https://www.linkedin.com/in/amal-menzli-3ab655155/"><i class="fa fa-linkedin"></i></a></li>
+                                                <li><a href="https://github.com/AmalM7"><i class="fa fa-github"></i></a></li>
+                                                <li><a href="https://www.facebook.com/amal.menzli"><i class="fa fa-facebook"></i></a></li>
+                                        </ul>
+            
+                                </div>       
+                        </div>
+    
+                    </div>
+    
+                </div>
+    
+            </div>
+    
+        </div>
+    
+        </section>
+        <!-- Contact Ends -->
+
+
+
+<!-- Footer -->
+<footer class="text-center">
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                Copyright &copy; 2019. Made with <i class="fa fa-heart heart"></i> by <span>Amal</span>.
+            </p>
+        </div>
+    </div>
+    <!-- Back To Top -->
+    <a href="#home" id="back-to-top" class="btn btn-sm btn-yellow btn-back-to-top smooth-scroll hidden-sm hidden-xs" title="home" role="button">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</footer>
+
+<!-- Footer Ends -->
+
+    <!-- Custom JQuery -->
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <!-- Bootstarp JS-->
+    <script src="{{ url_for('static', filename='js/bootstrap/bootstrap.js') }}"></script>
+    <!-- WOW JS -->
+    <script src="{{ url_for('static', filename='js/wow/wow.min.js') }}"></script>
+    <!-- Custom js-->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <!-- Responsive Tabs JS -->
+    <script src="{{ url_for('static', filename='js/responsive-tabs/jquery.responsiveTabs.min.js') }}"></script>
+
+    
+
+
+</body>
+</html>
